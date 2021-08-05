@@ -10,26 +10,26 @@
 * Исправлены юзеры и группы для 1с
 * Автосборка для GitLab
 
-## Использование
+## Процесс сборки образов
 
-Добавить переменные окружения:
+1. Добавить переменные окружения.
 
 * ONEC_USERNAME - учетная запись на http://releases.1c.ru
 * ONEC_PASSWORD - пароль для учетной записи на http://releases.1c.ru
 * ONEC_VERSION - версия платформы 1С:Преприятия 8.3, которая будет в образе
 * DOCKER_USERNAME - учетная запись на [Docker Hub](https://hub.docker.com) или другого  репозитория образов
 
-Запустить требуемую сборку через CLI:
+2. Сформировать образ через CLI.
 
-### Оглавление
+### Примеры запуска
 
 - [Сервер](#сервер)
 - [Сервер с дополнительными языками](#сервер-с-дополнительными-языками)
-- [Клиент]
-- [Клиент с поддержкой VNC]
-- [Клиент с дополнительными языками]
-- [Тонкий клиент]
-- [Тонкий клиент с дополнительными языками]
+- [Клиент](#клиент)
+- [Клиент с дополнительными языками](#клиент-с-дополнительными-языками)
+- [Клиент с поддержкой VNC](#клиент-с-поддержкой-vnc)
+- [Клиент с дополнительными языками и поддержкой VNC](#клиент-с-дополнительными-языками-и-поддержкой-vnc)
+- [Vanessa-Automation](#vanessa-automation)
 - [Хранилище конфигурации]
 - [rac-gui]
 - [gitsync]
@@ -50,7 +50,7 @@ docker build ^
   -t %DOCKER_USERNAME%/server:%ONEC_VERSION% ^
   -f server/Dockerfile .
 
-#linux
+# linux
 docker build \
   --build-arg DOCKER_USERNAME=${DOCKER_USERNAME} \
   --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
@@ -75,7 +75,7 @@ docker build ^
   -t %DOCKER_USERNAME%/server:%ONEC_VERSION% ^
   -f server/Dockerfile .
 
-#linux
+# linux
 docker build \
   --build-arg DOCKER_USERNAME=${DOCKER_USERNAME} \
   --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
@@ -84,6 +84,130 @@ docker build \
   --build-arg nls_enabled=true \
   -t %DOCKER_USERNAME%/server:${ONEC_VERSION} \
   -f server/Dockerfile .
+```
+
+### Клиент
+
+[(наверх)](#оглавление)
+
+```bash
+# windows
+docker build ^
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  --target client ^
+  -t %DOCKER_USERNAME%/client:%ONEC_VERSION% ^
+  -f client/Dockerfile .
+
+# linux
+docker build \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  --target client \
+  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -f client/Dockerfile .
+```
+
+### Клиент с дополнительными языками
+
+[(наверх)](#оглавление)
+
+```bash
+# windows
+docker build ^
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  --build-arg nls_enabled=true ^
+  --target client ^
+  -t %DOCKER_USERNAME%/client:%ONEC_VERSION% ^
+  -f client/Dockerfile .
+
+# linux
+docker build \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  --build-arg nls_enabled=true \
+  --target client \
+  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -f client/Dockerfile .
+```
+
+### Клиент с поддержкой VNC
+
+[(наверх)](#оглавление)
+
+```bash
+# windows
+docker build ^
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  --target client-vnc ^
+  -t %DOCKER_USERNAME%/client:%ONEC_VERSION% ^
+  -f client/Dockerfile .
+
+# linux
+docker build \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  --target client-vnc \
+  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -f client/Dockerfile .
+```
+
+### Клиент с дополнительными языками и поддержкой VNC
+
+[(наверх)](#оглавление)
+
+```bash
+# windows
+docker build ^
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  --build-arg nls_enabled=true ^
+  --target client-vnc ^
+  -t %DOCKER_USERNAME%/client:%ONEC_VERSION% ^
+  -f client/Dockerfile .
+
+# linux
+docker build \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  --build-arg nls_enabled=true \
+  --target client-vnc \
+  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -f client/Dockerfile .
+```
+
+### Vanessa-Automation
+
+```bash
+# windows
+docker build ^
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  --build-arg VA_VERSION=1.2.036 ^
+  --target client-vnc-va ^
+  -t %DOCKER_USERNAME%/va:%ONEC_VERSION% ^
+  -f client/Dockerfile .
+
+# linux
+docker build \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  --build-arg VA_VERSION=1.2.036 \
+  --target client-vnc-va \
+  -t %DOCKER_USERNAME%/va:${ONEC_VERSION} \
+  -f client/Dockerfile .
 ```
 
 ### OneScript
@@ -100,8 +224,8 @@ docker build ^
   -t %DOCKER_USERNAME%/client-oscript-1.6.0:%ONEC_VERSION% ^
   -f oscript/Dockerfile .
 
-#linux
-docker build ^
+# linux
+docker build \
   --build-arg DOCKER_USERNAME=${DOCKER_USERNAME} \
   --build-arg BASE_IMAGE=client-vnc \
   --build-arg BASE_TAG=${ONEC_VERSION} \
@@ -115,3 +239,31 @@ docker build ^
 ```bash
 docker-compose up -d
 ```
+
+## Как запустить тестирование VA
+
+Через переменную окружения ONEC_EXEC_PARAMS можно задать строку запуска клиента 1С.
+
+```bash
+# windows
+docker run --rm -it -p 5900:5900/tcp ^
+  --env-file=.env.docker  ^
+  -v %CD%\nethasp.ini:/opt/1cv8/current/conf/nethasp.ini ^
+  -v %CD%\VAParams.json:/home/usr1cv8/VAParams.json ^
+  %DOCKER_USERNAME%/va:%ONEC_VERSION%
+
+# linux
+docker run --rm -it -p 5900:5900/tcp \
+  --env-file=.env.docker  \
+  -v $(pwd)/nethasp.ini:/opt/1cv8/current/conf/nethasp.ini \
+  -v $(pwd)/VAParams.json:/home/usr1cv8/VAParams.json \
+  ${DOCKER_USERNAME}/va:${ONEC_VERSION}
+```
+
+где файл ```.env.docker``` содержит инициализацию переменных окружения:
+
+```bash
+ONEC_EXEC_PARAMS=ENTERPRISE /F/home/usr1cv8/base /N Администратор /TESTMANAGER /Execute /va.epf /C"StartFeaturePlayer;workspaceRoot=/home/usr1cv8/project;VBParams=/home/usr1cv8/VAParams.json"
+```
+
+Пример иллюстрирует запуск контейнера, в котором будет открыта обработка VA в режиме предприятия 1С, с последующим удалением контейнера по завершению работы. Процесс тестирования описывается параметрами запуска VA в файле VAParams.json. Сам процесс тестирования можно контролировать подключившись к рабочему столу через порт 5900, например, с помощью [VNC Viewer](https://www.realvnc.com/en/connect/download/viewer/).

@@ -7,6 +7,7 @@ default:
 stages:
   - build client
   - build vnc
+  - build va
   - build server
   - build ws
   - build jdk
@@ -14,7 +15,6 @@ stages:
   - build crs
   - build crs-http
   - build client-oscript
-  - build client-vnc-vas
   - build runner
   - test
   - release
@@ -54,6 +54,17 @@ build:vnc:
   rules:
     - if: '$INSTALLER_TYPE == "client"'
     - if: '$INSTALLER_TYPE == "client-vnc"'
+    - if: '$BUILD_ALL == "true"'
+
+build:va:
+  stage: build va
+  variables:
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/va:$ONEC_VERSION
+  script:
+    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --build-arg VA_VERSION=1.2.036 --target client-vnc-va --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
+    - docker push $CONTAINER_TEST_IMAGE
+  rules:
+    - if: '$INSTALLER_TYPE == "test"'
     - if: '$BUILD_ALL == "true"'
 
 build:server:
@@ -135,17 +146,6 @@ build:client-oscript:
     - if: '$INSTALLER_TYPE == "oscript" || $INSTALLER_TYPE == "onescript"'
     - if: '$BUILD_ALL == "true"'
 
-build:client-vnc-vas:
-  stage: build client-vnc-vas
-  variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-vnc-vas:$ONEC_VERSION
-  script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --build-arg VAS_VERSION=1.2.025 --target client-vnc-vas --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
-    - docker push $CONTAINER_TEST_IMAGE
-  rules:
-    - if: '$INSTALLER_TYPE == "tests"'
-    - if: '$BUILD_ALL == "true"'
-
 build:runner:
   stage: build runner
   variables:
@@ -167,6 +167,17 @@ run:vnc:
   rules:
     - if: '$INSTALLER_TYPE == "client"'
     - if: '$INSTALLER_TYPE == "client-vnc"'
+    - if: '$BUILD_ALL == "true"'
+
+run:va:
+  stage: test
+  variables:
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/va:$ONEC_VERSION
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "if [ -f /usr/lib/vanessa-automation-single.epf ]; then exit 0; else exit 1; fi"
+  rules:
+    - if: '$INSTALLER_TYPE == "test"'
     - if: '$BUILD_ALL == "true"'
 
 run:server:
@@ -249,17 +260,6 @@ run:client-oscript:
     - if: '$INSTALLER_TYPE == "oscript" || $INSTALLER_TYPE == "onescript"'
     - if: '$BUILD_ALL == "true"'
 
-run:client-vnc-vas:
-  stage: test
-  variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-vnc-vas:$ONEC_VERSION
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "if [ -f /usr/lib/vanessa-automation-single.epf ]; then exit 0; else exit 1; fi"
-  rules:
-    - if: '$INSTALLER_TYPE == "tests"'
-    - if: '$BUILD_ALL == "true"'
-
 push:client:
   stage: release
   variables:
@@ -272,6 +272,13 @@ push:vnc:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-vnc:$ONEC_VERSION
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/client-vnc:latest
+  <<: *common_release
+
+push:va:
+  stage: release
+  variables:
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/va:$ONEC_VERSION
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/va:latest
   <<: *common_release
 
 push:server:
@@ -321,11 +328,4 @@ push:client-oscript:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/client-oscript-$ONESCRIPT_VERSION:latest
-  <<: *common_release
-
-push:client-vnc-vas:
-  stage: release
-  variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-vnc-vas:$ONEC_VERSION
-    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/client-vnc-vas:latest
   <<: *common_release
