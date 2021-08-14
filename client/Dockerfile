@@ -50,8 +50,8 @@ COPY ./configs/client/current/ /opt/1cv8/current/
 FROM ubuntu:18.04 as client
 LABEL maintainer="Anton Kvashenkin <anton.jugatsu@gmail.com> (@jugatsu)"
 
-ARG ONEC_UID="2001"
-ARG ONEC_GID="2001"
+ARG ONEC_UID="999"
+ARG ONEC_GID="999"
 
 COPY --from=base1 /opt /opt
 
@@ -90,8 +90,8 @@ FROM client as base2
 
 FROM debian:stretch-slim as client-vnc
 
-ARG ONEC_UID="2001"
-ARG ONEC_GID="2001"
+ARG ONEC_UID="999"
+ARG ONEC_GID="999"
 
 COPY --from=base2 /opt /opt
 
