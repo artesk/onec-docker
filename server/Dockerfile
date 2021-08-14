@@ -80,6 +80,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 1540 1541 1560
 
-USER usr1cv8
-
 CMD ["ragent"]
