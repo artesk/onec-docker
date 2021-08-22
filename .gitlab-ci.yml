@@ -14,7 +14,7 @@ stages:
   - build edt
   - build crs
   - build crs-http
-  - build client-oscript
+  - build oscript
   - build runner
   - test
   - release
@@ -38,7 +38,12 @@ build:client:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --target client --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
+    - docker build
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --target client
+      --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "client"'
@@ -49,7 +54,12 @@ build:vnc:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-vnc:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --target client-vnc --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
+    - docker build
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --target client-vnc
+      --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "client"'
@@ -61,7 +71,13 @@ build:va:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/va:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --build-arg VA_VERSION=1.2.036 --target client-vnc-va --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
+    - docker build
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --build-arg VA_VERSION=1.2.036
+      --target client-vnc-va
+      --pull -t $CONTAINER_TEST_IMAGE -f client/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "test"'
@@ -72,7 +88,11 @@ build:server:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/server:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --pull -t $CONTAINER_TEST_IMAGE -f server/Dockerfile .
+    - docker build
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --pull -t $CONTAINER_TEST_IMAGE -f server/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "server"'
@@ -83,7 +103,11 @@ build:ws:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/ws:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --pull -t $CONTAINER_TEST_IMAGE -f ws/Dockerfile .
+    - docker build
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --pull -t $CONTAINER_TEST_IMAGE -f ws/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "ws"'
@@ -94,7 +118,12 @@ build:jdk:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/jdk:$ONEC_VERSION
   script:
-    - docker build --build-arg DOCKER_USERNAME=$DOCKER_USERNAME --build-arg BASE_IMAGE=client-vnc --build-arg BASE_TAG=$ONEC_VERSION --build-arg OPENJDK_VERSION=14 --pull -t $CONTAINER_TEST_IMAGE -f jdk/Dockerfile .
+    - docker build
+    --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
+    --build-arg BASE_IMAGE=client-vnc
+    --build-arg BASE_TAG=$ONEC_VERSION
+    --build-arg OPENJDK_VERSION=14
+    --pull -t $CONTAINER_TEST_IMAGE -f jdk/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "jdk"'
@@ -106,7 +135,14 @@ build:edt:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/edt:$ONEC_VERSION
   script:
-    - docker build --build-arg DOCKER_USERNAME=$DOCKER_USERNAME --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg BASE_IMAGE=jdk --build-arg BASE_TAG=$ONEC_VERSION --build-arg EDT_VERSION=2020.5 --pull -t $CONTAINER_TEST_IMAGE -f edt/Dockerfile .
+    - docker build
+      --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg BASE_IMAGE=jdk
+      --build-arg BASE_TAG=$ONEC_VERSION
+      --build-arg EDT_VERSION=2020.5
+      --pull -t $CONTAINER_TEST_IMAGE -f edt/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "edt"'
@@ -117,7 +153,11 @@ build:crs:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_USERNAME=$ONEC_USERNAME --build-arg ONEC_PASSWORD=$ONEC_PASSWORD --build-arg ONEC_VERSION=$ONEC_VERSION --pull -t $CONTAINER_TEST_IMAGE -f crs/Dockerfile .
+    - docker build
+      --build-arg ONEC_USERNAME=$ONEC_USERNAME
+      --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --pull -t $CONTAINER_TEST_IMAGE -f crs/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "crs"'
@@ -128,19 +168,27 @@ build:crs-http:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-http:$ONEC_VERSION
   script:
-    - docker build --build-arg ONEC_VERSION=$ONEC_VERSION --build-arg DOCKER_USERNAME=$DOCKER_USERNAME --pull -t $CONTAINER_TEST_IMAGE -f crs-apache/Dockerfile .
+    - docker build
+      --build-arg ONEC_VERSION=$ONEC_VERSION
+      --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
+      --pull -t $CONTAINER_TEST_IMAGE -f crs-apache/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "crs"'
     - if: '$INSTALLER_TYPE == "crs-http"'
     - if: '$BUILD_ALL == "true"'
 
-build:client-oscript:
-  stage: build client-oscript
+build:oscript:
+  stage: build oscript
   variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
   script:
-    - docker build --build-arg DOCKER_USERNAME=$DOCKER_USERNAME --build-arg BASE_IMAGE=client-vnc --build-arg BASE_TAG=$ONEC_VERSION --build-arg ONESCRIPT_VERSION=$ONESCRIPT_VERSION --pull -t $CONTAINER_TEST_IMAGE -f oscript/Dockerfile .
+    - docker build
+      --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
+      --build-arg BASE_IMAGE=client-vnc
+      --build-arg BASE_TAG=$ONEC_VERSION
+      --build-arg ONESCRIPT_VERSION=$ONESCRIPT_VERSION
+      --pull -t $CONTAINER_TEST_IMAGE -f oscript/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "oscript" || $INSTALLER_TYPE == "onescript"'
@@ -151,7 +199,12 @@ build:runner:
   variables:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/runner:$ONEC_VERSION
   script:
-    - docker build --build-arg DOCKER_USERNAME=$DOCKER_USERNAME --build-arg BASE_IMAGE=client-oscript-$ONESCRIPT_VERSION --build-arg BASE_TAG=$ONEC_VERSION --build-arg RUNNER_VER=1.10.0 --pull -t $CONTAINER_TEST_IMAGE -f vanessa-runner/Dockerfile .
+    - docker build
+      --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
+      --build-arg BASE_IMAGE=oscript-$ONESCRIPT_VERSION
+      --build-arg BASE_TAG=$ONEC_VERSION
+      --build-arg RUNNER_VER=1.10.0
+      --pull -t $CONTAINER_TEST_IMAGE -f vanessa-runner/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "runner"'
@@ -163,7 +216,10 @@ run:vnc:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-vnc:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "/opt/1C/v8.3/x86_64/1cv8 CREATEINFOBASE File=./build/db /DumpResult ./build/create.log"
+    - docker run --rm
+      $CONTAINER_TEST_IMAGE
+      bash -c
+        "/opt/1C/v8.3/x86_64/1cv8 CREATEINFOBASE File=./build/db /DumpResult ./build/create.log"
   rules:
     - if: '$INSTALLER_TYPE == "client"'
     - if: '$INSTALLER_TYPE == "client-vnc"'
@@ -175,7 +231,9 @@ run:va:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/va:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "if [ -f /usr/lib/vanessa-automation-single.epf ]; then exit 0; else exit 1; fi"
+    - docker run --rm $CONTAINER_TEST_IMAGE
+      bash -c
+        "if [ -f /usr/lib/vanessa-automation-single.epf ]; then exit 0; else exit 1; fi"
   rules:
     - if: '$INSTALLER_TYPE == "test"'
     - if: '$BUILD_ALL == "true"'
@@ -186,7 +244,7 @@ run:server:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/server:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c ls /home/usr1cv8/.1cv8
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "ls /home/usr1cv8/.1cv8"
   rules:
     - if: '$INSTALLER_TYPE == "server"'
     - if: '$BUILD_ALL == "true"'
@@ -197,7 +255,7 @@ run:ws:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/ws:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c cd /home/www
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "cd /home/www"
   rules:
     - if: '$INSTALLER_TYPE == "ws"'
     - if: '$BUILD_ALL == "true"'
@@ -208,7 +266,7 @@ run:jdk:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/jdk:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE java -version
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "java -version"
   rules:
     - if: '$INSTALLER_TYPE == "jdk"'
     - if: '$INSTALLER_TYPE == "edt"'
@@ -220,7 +278,7 @@ run:edt:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/edt:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c ring help
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "ring help"
   rules:
     - if: '$INSTALLER_TYPE == "edt"'
     - if: '$BUILD_ALL == "true"'
@@ -231,7 +289,7 @@ run:crs:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE ls /home/usr1cv8/.1cv8
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "ls /home/usr1cv8/.1cv8"
   rules:
     - if: '$INSTALLER_TYPE == "crs"'
     - if: '$BUILD_ALL == "true"'
@@ -249,10 +307,10 @@ run:crs-http:
     - if: '$INSTALLER_TYPE == "crs-http"'
     - if: '$BUILD_ALL == "true"'
 
-run:client-oscript:
+run:oscript:
   stage: test
   variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker run --rm $CONTAINER_TEST_IMAGE oscript -version
@@ -323,9 +381,9 @@ push:crs-http:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/crs-http:latest
   <<: *common_release
 
-push:client-oscript:
+push:oscript:
   stage: release
   variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/client-oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
-    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/client-oscript-$ONESCRIPT_VERSION:latest
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/oscript-$ONESCRIPT_VERSION:$ONEC_VERSION
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/oscript-$ONESCRIPT_VERSION:latest
   <<: *common_release
