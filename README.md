@@ -29,13 +29,12 @@
 - [Клиент с дополнительными языками](#клиент-с-дополнительными-языками)
 - [Клиент с поддержкой VNC](#клиент-с-поддержкой-vnc)
 - [Клиент с дополнительными языками и поддержкой VNC](#клиент-с-дополнительными-языками-и-поддержкой-vnc)
+- [OneScript](#onescript)
 - [Vanessa-Automation](#vanessa-automation)
 - [Хранилище конфигурации]
 - [rac-gui]
 - [gitsync]
-- [OneScript](#onescript)
 - [vanessa-runner]
-
 ### Сервер
 
 [(наверх)](#оглавление)
@@ -186,6 +185,30 @@ docker build \
   -f client/Dockerfile .
 ```
 
+### OneScript
+
+[(наверх)](#оглавление)
+
+```bash
+# windows
+docker build ^
+  --build-arg DOCKER_USERNAME=%DOCKER_USERNAME% ^
+  --build-arg BASE_IMAGE=client-vnc ^
+  --build-arg BASE_TAG=%ONEC_VERSION% ^
+  --build-arg ONESCRIPT_VERSION=1.6.0 ^
+  -t %DOCKER_USERNAME%/oscript-1.6.0:%ONEC_VERSION% ^
+  -f oscript/Dockerfile .
+
+# linux
+docker build \
+  --build-arg DOCKER_USERNAME=${DOCKER_USERNAME} \
+  --build-arg BASE_IMAGE=client-vnc \
+  --build-arg BASE_TAG=${ONEC_VERSION} \
+  --build-arg ONESCRIPT_VERSION=1.6.0 \
+  -t ${DOCKER_USERNAME}/oscript-1.6.0:${ONEC_VERSION} \
+  -f oscript/Dockerfile .
+```
+
 ### Vanessa-Automation
 
 ```bash
@@ -208,30 +231,6 @@ docker build \
   --target client-vnc-va \
   -t %DOCKER_USERNAME%/va:${ONEC_VERSION} \
   -f client/Dockerfile .
-```
-
-### OneScript
-
-[(наверх)](#оглавление)
-
-```bash
-# windows
-docker build ^
-  --build-arg DOCKER_USERNAME=%DOCKER_USERNAME% ^
-  --build-arg BASE_IMAGE=client-vnc ^
-  --build-arg BASE_TAG=%ONEC_VERSION% ^
-  --build-arg ONESCRIPT_VERSION=1.6.0 ^
-  -t %DOCKER_USERNAME%/client-oscript-1.6.0:%ONEC_VERSION% ^
-  -f oscript/Dockerfile .
-
-# linux
-docker build \
-  --build-arg DOCKER_USERNAME=${DOCKER_USERNAME} \
-  --build-arg BASE_IMAGE=client-vnc \
-  --build-arg BASE_TAG=${ONEC_VERSION} \
-  --build-arg ONESCRIPT_VERSION=1.6.0 \
-  -t ${DOCKER_USERNAME}/client-oscript-1.6.0:${ONEC_VERSION} \
-  -f oscript/Dockerfile .
 ```
 
 ## Как запустить в docker-compose
