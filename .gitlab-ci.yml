@@ -119,12 +119,12 @@ build:jdk:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/jdk:$ONEC_VERSION
   script:
     - docker build
-    --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
-    --build-arg BASE_IMAGE=client-vnc
-    --build-arg BASE_TAG=$ONEC_VERSION
-    --build-arg OPENJDK_VERSION=14
-    --pull -t $CONTAINER_TEST_IMAGE -f jdk/Dockerfile .
-    - docker push $CONTAINER_TEST_IMAGE
+      --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
+      --build-arg BASE_IMAGE=client-vnc
+      --build-arg BASE_TAG=$ONEC_VERSION
+      --build-arg OPENJDK_VERSION=14
+      --pull -t $CONTAINER_TEST_IMAGE -f jdk/Dockerfile .
+      - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "jdk"'
     - if: '$INSTALLER_TYPE == "edt"'
