@@ -124,7 +124,7 @@ build:jdk:
       --build-arg BASE_TAG=$ONEC_VERSION
       --build-arg OPENJDK_VERSION=14
       --pull -t $CONTAINER_TEST_IMAGE -f jdk/Dockerfile .
-      - docker push $CONTAINER_TEST_IMAGE
+    - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "jdk"'
     - if: '$INSTALLER_TYPE == "edt"'
