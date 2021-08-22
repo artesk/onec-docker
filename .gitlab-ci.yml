@@ -255,7 +255,7 @@ run:ws:
     CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/ws:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "cd /home/www"
+    - docker run --rm $CONTAINER_TEST_IMAGE bash -c "cd /var/www"
   rules:
     - if: '$INSTALLER_TYPE == "ws"'
     - if: '$BUILD_ALL == "true"'
