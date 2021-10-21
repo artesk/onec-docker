@@ -122,7 +122,7 @@ build:jdk:
       --build-arg DOCKER_USERNAME=$DOCKER_USERNAME
       --build-arg BASE_IMAGE=client-vnc
       --build-arg BASE_TAG=$ONEC_VERSION
-      --build-arg OPENJDK_VERSION=14
+      --build-arg OPENJDK_VERSION=15
       --pull -t $CONTAINER_TEST_IMAGE -f jdk/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
