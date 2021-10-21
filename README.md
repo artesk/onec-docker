@@ -15,27 +15,33 @@
 
 1. Добавить переменные окружения.
 
-* ONEC_USERNAME - учетная запись на http://releases.1c.ru
-* ONEC_PASSWORD - пароль для учетной записи на http://releases.1c.ru
-* ONEC_VERSION - версия платформы 1С:Преприятия 8.3, которая будет в образе
-* DOCKER_USERNAME - учетная запись на [Docker Hub](https://hub.docker.com) или другого  репозитория образов
+   ```text
+   * ONEC_USERNAME - учетная запись на http://releases.1c.ru
+   * ONEC_PASSWORD - пароль для учетной записи на http://releases.1c.ru
+   * ONEC_VERSION - версия платформы 1С:Предприятие 8.3, которая будет в образе
+   * DOCKER_USERNAME - учетная запись на [Docker Hub](https://hub.docker.com) или другого репозитория образов
+   ```
 
 2. Сформировать образ через CLI.
 
 ### Примеры запуска
 
-- [Сервер](#сервер)
-- [Сервер с дополнительными языками](#сервер-с-дополнительными-языками)
-- [Клиент](#клиент)
-- [Клиент с дополнительными языками](#клиент-с-дополнительными-языками)
-- [Клиент с поддержкой VNC](#клиент-с-поддержкой-vnc)
-- [Клиент с дополнительными языками и поддержкой VNC](#клиент-с-дополнительными-языками-и-поддержкой-vnc)
-- [OneScript](#onescript)
-- [Vanessa-Automation](#vanessa-automation)
-- [Хранилище конфигурации]
+* [Сервер](#сервер)
+* [Сервер с дополнительными языками](#сервер-с-дополнительными-языками)
+* [Клиент](#клиент)
+* [Клиент с дополнительными языками](#клиент-с-дополнительными-языками)
+* [Клиент с поддержкой VNC](#клиент-с-поддержкой-vnc)
+* [Клиент с дополнительными языками и поддержкой VNC](#клиент-с-дополнительными-языками-и-поддержкой-vnc)
+* [Хранилище конфигурации](#хранилище-конфигурации)
+* [Хранилище конфигурации с сервером apache](#хранилище-конфигурации-с-сервером-apache)
+* [OneScript](#onescript)
+* [Vanessa-Automation](#vanessa-automation)
+
+
 - [rac-gui]
 - [gitsync]
 - [vanessa-runner]
+
 ### Сервер
 
 [(наверх)](#оглавление)
@@ -184,6 +190,48 @@ docker build \
   --target client-vnc \
   -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
   -f client/Dockerfile .
+```
+
+### Хранилище конфигурации
+
+```bash
+# windows
+docker build ^
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  -t %DOCKER_USERNAME%/crs:%ONEC_VERSION% ^
+  -f crs/Dockerfile .
+
+# linux
+docker build \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  -t %DOCKER_USERNAME%/crs:${ONEC_VERSION} \
+  -f crs/Dockerfile .
+```
+
+### Хранилище конфигурации с сервером apache
+
+```bash
+# windows
+docker build ^
+  --build-arg DOCKER_USERNAME=%DOCKER_USERNAME% \
+  --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
+  --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
+  --build-arg ONEC_VERSION=%ONEC_VERSION% ^
+  -t %DOCKER_USERNAME%/crs-apache:%ONEC_VERSION% ^
+  -f crs-apache/Dockerfile .
+
+# linux
+docker build \
+  --build-arg DOCKER_USERNAME=${DOCKER_USERNAME} \
+  --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
+  --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
+  --build-arg ONEC_VERSION=${ONEC_VERSION} \
+  -t %DOCKER_USERNAME%/crs-apache:${ONEC_VERSION} \
+  -f crs-apache/Dockerfile .
 ```
 
 ### OneScript
