@@ -16,10 +16,10 @@
 1. Добавить переменные окружения.
 
    ```text
-   * ONEC_USERNAME - учетная запись на http://releases.1c.ru
-   * ONEC_PASSWORD - пароль для учетной записи на http://releases.1c.ru
-   * ONEC_VERSION - версия платформы 1С:Предприятие 8.3, которая будет в образе
-   * DOCKER_USERNAME - учетная запись на [Docker Hub](https://hub.docker.com) или другого репозитория образов
+   ONEC_USERNAME - учетная запись на http://releases.1c.ru
+   ONEC_PASSWORD - пароль для учетной записи на http://releases.1c.ru
+   ONEC_VERSION - версия платформы 1С:Предприятие 8.3, которая будет в образе
+   DOCKER_USERNAME - учетная запись на [Docker Hub](https://hub.docker.com) или другого репозитория образов
    ```
 
 2. Сформировать образ через CLI.
