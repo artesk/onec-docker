@@ -143,7 +143,7 @@ build:edt:
       --build-arg ONEC_PASSWORD=$ONEC_PASSWORD
       --build-arg BASE_IMAGE=jdk
       --build-arg BASE_TAG=$ONEC_VERSION
-      --build-arg EDT_VERSION=2021.2.6
+      --build-arg EDT_VERSION=2020.5
       --pull -t $CONTAINER_TEST_IMAGE -f edt/Dockerfile .
     - docker push $CONTAINER_TEST_IMAGE
   rules:
