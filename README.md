@@ -217,7 +217,7 @@ docker build \
 ```bash
 # windows
 docker build ^
-  --build-arg DOCKER_USERNAME=%DOCKER_USERNAME% \
+  --build-arg DOCKER_USERNAME=%DOCKER_USERNAME% ^
   --build-arg ONEC_USERNAME=%ONEC_USERNAME% ^
   --build-arg ONEC_PASSWORD=%ONEC_PASSWORD% ^
   --build-arg ONEC_VERSION=%ONEC_VERSION% ^
@@ -319,7 +319,7 @@ ONEC_EXEC_PARAMS=ENTERPRISE /F/home/usr1cv8/base /N Администратор /
 ## Как работать с удаленных хранилищем
 
 ```bash
-docker run --rm -d -p 80:80 crs-http:8.3.17.1549
+docker run --rm -d -p 80:80 crs-apache:8.3.17.1549
 ```
 
 Пользовательские хранилища располагаются внутри volume в каталоге `/home/usr1cv8/.1cv8/repo`. По неизвестным пока причинам 1С не работает с хранилищами через -v (1С зависает).

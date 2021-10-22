@@ -15,7 +15,7 @@ stages:
   - build jdk
   - build edt
   - build crs
-  - build crs-http
+  - build crs-apache
   - build oscript
   - build runner
   - test
@@ -165,10 +165,10 @@ build:crs:
     - if: '$INSTALLER_TYPE == "crs"'
     - if: '$BUILD_ALL == "true"'
 
-build:crs-http:
-  stage: build crs-http
+build:crs-apache:
+  stage: build crs-apache
   variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-http:$ONEC_VERSION
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-apache:$ONEC_VERSION
   script:
     - docker build
       --build-arg ONEC_VERSION=$ONEC_VERSION
@@ -177,7 +177,7 @@ build:crs-http:
     - docker push $CONTAINER_TEST_IMAGE
   rules:
     - if: '$INSTALLER_TYPE == "crs"'
-    - if: '$INSTALLER_TYPE == "crs-http"'
+    - if: '$INSTALLER_TYPE == "crs-apache"'
     - if: '$BUILD_ALL == "true"'
 
 build:oscript:
@@ -296,17 +296,17 @@ run:crs:
     - if: '$INSTALLER_TYPE == "crs"'
     - if: '$BUILD_ALL == "true"'
 
-run:crs-http:
+run:crs-apache:
   stage: test
   variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-http:$ONEC_VERSION
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-apache:$ONEC_VERSION
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker run --rm -d --name=test_$CI_COMMIT_SHORT_SHA $CONTAINER_TEST_IMAGE
     - docker stop test_$CI_COMMIT_SHORT_SHA
   rules:
     - if: '$INSTALLER_TYPE == "crs"'
-    - if: '$INSTALLER_TYPE == "crs-http"'
+    - if: '$INSTALLER_TYPE == "crs-apache"'
     - if: '$BUILD_ALL == "true"'
 
 run:oscript:
@@ -376,11 +376,11 @@ push:crs:
     CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/crs:latest
   <<: *common_release
 
-push:crs-http:
+push:crs-apache:
   stage: release
   variables:
-    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-http:$ONEC_VERSION
-    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/crs-http:latest
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/crs-apache:$ONEC_VERSION
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/crs-apache:latest
   <<: *common_release
 
 push:oscript:
