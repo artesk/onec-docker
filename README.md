@@ -62,7 +62,7 @@ docker build \
   --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
   --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
-  -t %DOCKER_USERNAME%/server:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/server:${ONEC_VERSION} \
   -f server/Dockerfile .
 ```
 
@@ -88,7 +88,7 @@ docker build \
   --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
   --build-arg nls_enabled=true \
-  -t %DOCKER_USERNAME%/server:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/server:${ONEC_VERSION} \
   -f server/Dockerfile .
 ```
 
@@ -112,7 +112,7 @@ docker build \
   --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
   --target client \
-  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/client:${ONEC_VERSION} \
   -f client/Dockerfile .
 ```
 
@@ -138,7 +138,7 @@ docker build \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
   --build-arg nls_enabled=true \
   --target client \
-  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/client:${ONEC_VERSION} \
   -f client/Dockerfile .
 ```
 
@@ -162,7 +162,7 @@ docker build \
   --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
   --target client-vnc \
-  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/client:${ONEC_VERSION} \
   -f client/Dockerfile .
 ```
 
@@ -188,7 +188,7 @@ docker build \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
   --build-arg nls_enabled=true \
   --target client-vnc \
-  -t %DOCKER_USERNAME%/client:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/client:${ONEC_VERSION} \
   -f client/Dockerfile .
 ```
 
@@ -208,7 +208,7 @@ docker build \
   --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
   --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
-  -t %DOCKER_USERNAME%/crs:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/crs:${ONEC_VERSION} \
   -f crs/Dockerfile .
 ```
 
@@ -230,7 +230,7 @@ docker build \
   --build-arg ONEC_USERNAME=${ONEC_USERNAME} \
   --build-arg ONEC_PASSWORD=${ONEC_PASSWORD} \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
-  -t %DOCKER_USERNAME%/crs-apache:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/crs-apache:${ONEC_VERSION} \
   -f crs-apache/Dockerfile .
 ```
 
@@ -278,7 +278,7 @@ docker build \
   --build-arg ONEC_VERSION=${ONEC_VERSION} \
   --build-arg VA_VERSION=1.2.036 \
   --target client-vnc-va \
-  -t %DOCKER_USERNAME%/va:${ONEC_VERSION} \
+  -t ${DOCKER_USERNAME}/va:${ONEC_VERSION} \
   -f client/Dockerfile .
 ```
 
